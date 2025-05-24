@@ -1,0 +1,549 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
+
+body {
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    margin: 0;
+    padding: 0;
+    color: #f3f3f3;
+    min-height: 100vh;
+}
+header {
+    background: #4a90e2;
+    color: #fff;
+    padding: 2em 1em 1em 1em;
+    text-align: center;
+}
+header h1 {
+    margin: 0 0 0.5em 0;
+    font-size: 2.5em;
+    letter-spacing: 2px;
+}
+header p {
+    margin: 0;
+    font-size: 1.2em;
+}
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2em 0;
+}
+.blog-link {
+    display: inline-block;
+    padding: 0.8em 2em;
+    background: #4a90e2;
+    color: #fff;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: background 0.2s;
+    margin-top: 1em;
+}
+.blog-link:hover {
+    background: #357ab8;
+}
+footer {
+    text-align: center;
+    color: #888;
+    padding: 2em 0 1em 0;
+    font-size: 0.95em;
+}
+.article-list {
+    max-width: 700px;
+    margin: 2em auto;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 2em;
+}
+.article-list h2 {
+    margin-top: 0;
+}
+.article-list ul {
+    list-style: none;
+    padding: 0;
+}
+.article-list li {
+    margin: 1.2em 0;
+    font-size: 1.1em;
+}
+.article-list a {
+    color: #4a90e2;
+    text-decoration: none;
+}
+.article-list a:hover {
+    text-decoration: underline;
+}
+
+/* 侧边导航栏 */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    background: rgba(34, 37, 38, 0.98);
+    color: #fff;
+    padding: 2.5em 1.5em 1.5em 1.5em;
+    box-sizing: border-box;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-shadow: 2px 0 16px 0 rgba(0,0,0,0.12);
+}
+.sidebar-img {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5em;
+}
+.sidebar-img img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+}
+.sidebar h2 {
+    margin: 0 0 1.2em 0;
+    font-size: 1.4em;
+    letter-spacing: 2px;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+    font-weight: 700;
+}
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+.sidebar li {
+    margin: 1.5em 0;
+}
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: color 0.2s;
+    font-family: inherit;
+}
+.sidebar a:hover {
+    color: #ffd479;
+}
+
+/* 主内容区 */
+.main-content {
+    margin-left: 260px;
+    min-height: 100vh;
+    background: transparent;
+    padding: 0 0 2em 0;
+}
+.section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: 3em 0 2em 0;
+}
+
+/* 主页板块 */
+.home-section {
+    background: none;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+.home-text {
+    position: absolute;
+    top: 80px;
+    left: 60px;
+    z-index: 2;
+    color: #fff;
+    text-shadow: 0 2px 16px rgba(0,0,0,0.35);
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+}
+.home-text h1 {
+    font-size: 2.7em;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 0.5em;
+}
+.home-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url('Starry Night over the Rhone, 1888.jpg'), url('Undergrowth with Ivy, 1889.jpg'), url('0111_repro.jpg');
+    background-position: left top, left bottom, right center;
+    background-size: 30% 50%, 30% 50%, 70% 100%;
+    background-repeat: no-repeat;
+    opacity: 0.8;
+    z-index: 1;
+    border-radius: 0 0 40px 0;
+}
+
+/* 我板块 */
+.about-section {
+    background: rgba(255,255,255,0.07);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 32px;
+    margin: 2em 2em 0 2em;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+    padding: 0px 0;
+}
+.about-text {
+    margin: 0 auto;
+    text-align: center;
+    max-width: 600px;
+    color: #fff;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+}
+.about-text h2 {
+    font-size: 1.8em;
+    margin: 0;
+    font-weight: 700;
+    color: #fff;
+}
+.about-text p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin: 10px 0;
+    color: #fff;
+}
+
+/* 作品集板块 */
+.portfolio-section {
+    background: rgba(255,255,255,0.04);
+    padding-bottom: 3em;
+    border-radius: 32px;
+    margin: 2em 2em 0 2em;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+}
+.portfolio-section .portfolio-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5em;
+    margin-bottom: 1.5em;
+    margin-top: 2em;
+}
+.portfolio-section h2 {
+    font-size: 2em;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+    font-weight: 700;
+    color: #ffd479;
+    margin: 0;
+}
+.portfolio-header-btns {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+.section-title {
+    text-align: center;
+    font-size: 2em;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+    font-weight: 700;
+    color: #ffd479;
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
+    letter-spacing: 2px;
+}
+.portfolio-list, .portfolio-list.no-bg {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 2em auto 0 auto;
+    max-width: 700px;
+}
+@media (min-width: 900px) {
+    .portfolio-list.no-bg {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+.portfolio-item {
+    background: rgba(34,37,38,0.98);
+    border-radius: 18px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.13);
+    padding: 0.4em 1.5em;
+    width: 270px;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-bottom: 1em;
+    transition: box-shadow 0.2s, transform 0.2s;
+    align-items: flex-start;
+}
+.portfolio-item:hover {
+    box-shadow: 0 6px 32px rgba(255,212,121,0.13);
+    transform: translateY(-4px) scale(1.03);
+}
+.portfolio-item h3 {
+    margin: 0 0 0.5em 0;
+    font-size: 1.15em;
+    color: #ffd479;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+}
+.portfolio-item h3 a {
+    color: #ffd479;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.portfolio-item h3 a:hover {
+    color: #fffbe6;
+    text-decoration: underline;
+}
+.portfolio-item p, .portfolio-item .first-line {
+    color: #e0e0e0;
+    font-size: 1em;
+    margin-top: 0.2em;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+}
+
+/* 按钮美化 */
+.portfolio-btn, .back-home-btn, .work-nav a, .portfolio-sort button {
+    display: inline-block;
+    padding: 0.8em 2.2em;
+    background: linear-gradient(90deg, #232526 0%, #414345 100%);
+    color: #ffd479;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(34,37,38,0.10);
+    border: none;
+    outline: none;
+    margin: 0 0.5em;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+}
+.portfolio-btn:hover, .back-home-btn:hover, .work-nav a:hover, .portfolio-sort button:hover {
+    background: linear-gradient(90deg, #414345 0%, #232526 100%);
+    color: #fffbe6;
+    box-shadow: 0 4px 16px rgba(255,212,121,0.13);
+}
+.portfolio-sort button.active {
+    background: linear-gradient(90deg, #ffd479 0%, #ffe7b2 100%);
+    color: #232526;
+    box-shadow: 0 2px 8px rgba(255,212,121,0.13);
+}
+
+.portfolio-more {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+footer {
+    text-align: center;
+    color: #888;
+    padding: 2em 0 1em 0;
+    font-size: 0.95em;
+    background: none;
+    margin-left: 260px;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+}
+
+@media (max-width: 900px) {
+    .main-content {
+        margin-left: 0;
+    }
+    .sidebar {
+        position: static;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1em;
+        box-shadow: none;
+    }
+    .sidebar-img {
+        margin-bottom: 0;
+    }
+    .about-section, .portfolio-section {
+        margin: 1em 0 0 0;
+        border-radius: 18px;
+    }
+    footer {
+        margin-left: 0;
+    }
+    .portfolio-list {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.2em;
+    }
+}
+
+/* 作品详情页美化 */
+.work-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2em;
+    flex-wrap: wrap;
+    padding: 0 0.5em;
+}
+.work-title {
+    width: 100%;
+    text-align: center;
+    font-size: 2.2em;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+    color: #ffd479;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 1.5px;
+}
+.work-meta {
+    width: calc(100% - 2cm);
+    margin-left: 1cm;
+    margin-right: 1cm;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1.5em;
+    font-size: 1.18em;
+    color: #e0e0e0;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+    gap: 1.2em;
+}
+.work-date, .work-collection {
+    font-size: 1.18em;
+}
+.work-date {
+    color: #ffd479;
+}
+.work-collection {
+    color: #bfbfbf;
+    font-size: 1.18em;
+    font-weight: bold;
+}
+.work-content {
+    font-size: 1.18em;
+    color: #f3f3f3;
+    line-height: 2;
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(34,37,38,0.98);
+    border-radius: 18px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.13);
+    padding: 2.5em 2em;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 0.02em;
+    text-align: left;
+}
+.work-nav {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    margin: 2.5em 0 1em 0;
+}
+.work-nav a {
+    display: inline-block;
+    padding: 0.8em 2.2em;
+    background: linear-gradient(90deg, #232526 0%, #414345 100%);
+    color: #ffd479;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(34,37,38,0.10);
+    border: none;
+    outline: none;
+    margin: 0 0.5em;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+}
+.work-nav a:hover {
+    background: linear-gradient(90deg, #414345 0%, #232526 100%);
+    color: #fffbe6;
+    box-shadow: 0 4px 16px rgba(255,212,121,0.13);
+}
+
+.portfolio-list.no-bg {
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+    margin: 2em auto 0 auto;
+    max-width: 1000px;
+    flex-wrap: nowrap;
+}
+.portfolio-item.no-bg {
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    border-bottom: 2px solid #ffd47933;
+    padding: 1.5em 1em 1.5em 1em;
+    margin-bottom: 0;
+    min-width: 220px;
+    min-height: 160px;
+    transition: background 0.2s;
+    align-items: flex-start;
+}
+.portfolio-item.no-bg:last-child {
+    border-bottom: none;
+}
+.portfolio-item.no-bg h3 {
+    color: #ffd479;
+    font-size: 1.1em;
+    margin-bottom: 0.5em;
+}
+.portfolio-item.no-bg h3 a {
+    color: #ffd479;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+.portfolio-item.no-bg h3 a:hover {
+    color: #fffbe6;
+    text-decoration: underline;
+}
+.portfolio-item.no-bg p {
+    color: #e0e0e0;
+    font-size: 1em;
+    margin-top: 0.2em;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+}
+
+/* 优化按钮颜色为金色/灰色渐变 */
+.portfolio-btn, .back-home-btn, .work-nav a, .portfolio-sort-btn {
+    display: inline-block;
+    padding: 0.8em 2.2em;
+    background: linear-gradient(90deg, #ffd479 0%, #bfa76a 100%);
+    color: #232526;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: bold;
+    letter-spacing: 1px;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(255,212,121,0.10);
+    border: none;
+    outline: none;
+    margin: 0 0.5em;
+    font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+}
+.portfolio-btn:hover, .back-home-btn:hover, .work-nav a:hover, .portfolio-sort-btn:hover {
+    background: linear-gradient(90deg, #bfa76a 0%, #ffd479 100%);
+    color: #fffbe6;
+    box-shadow: 0 4px 16px rgba(255,212,121,0.13);
+}
+
+.back-home-btn.small {
+    padding: 0.8em 2.2em;
+    font-size: 1.1em;
+    border-radius: 25px;
+    margin: 2em auto 1.5em auto;
+    min-width: unset;
+    max-width: none;
+} 

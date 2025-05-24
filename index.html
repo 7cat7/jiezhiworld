@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>介之的世界 | jiezhiworld</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-img">
+            <img src="Still Life - Japanese Vase with Roses and Anemones, 1890.jpg" alt="头像" />
+        </div>
+        <ul>
+            <li><a href="#home">主页</a></li>
+            <li><a href="#about">我</a></li>
+            <li><a href="#portfolio">作品集</a></li>
+        </ul>
+    </div>
+    <div class="main-content">
+        <section id="home" class="section home-section">
+            <div class="home-text">
+                <h1>介之的世界 <span style="font-size: 0.6em; color: #888;">jiezhiworld</span></h1>
+                <p>受困在这个厄难的世界里<br>等待着一个新的灵魂拯救</p>
+            </div>
+            <div class="home-bg"></div>
+        </section>
+        <section id="about" class="section about-section" style="padding: 0px 0;">
+            <div class="about-text">
+                <h2 style="font-size: 1.8em; margin: 0;">介之</h2>
+                <p style="font-size: 1.2em; line-height: 1.6; margin: 10px 0;">我要戏谑地解构这个世界<br><br>直到游荡在大陆上的幽灵重生<br><br>在天空化为灰烬之前<br><br>建起陈旧的城堡<br><br>重燃理想的火焰 神圣的火焰<br><br>即使一切已经失去意义</p>
+            </div>
+        </section>
+        <section id="portfolio" class="section portfolio-section">
+            <div class="section-title">作品集</div>
+            <div class="portfolio-list no-bg">
+                <div class="portfolio-item no-bg">
+                    <h3><a href="work.html?id=1">作品一：我的第一篇博客</a></h3>
+                    <p>这是我的第一篇博客，记录了我的起点与思考。</p>
+                </div>
+                <div class="portfolio-item no-bg">
+                    <h3><a href="work.html?id=2">作品二：生活点滴随笔</a></h3>
+                    <p>生活中的点滴感悟与随笔，见证成长的足迹。</p>
+                </div>
+                <div class="portfolio-item no-bg">
+                    <h3><a href="work.html?id=3">作品三：技术成长记录</a></h3>
+                    <p>记录我在技术路上的学习与突破。</p>
+                </div>
+            </div>
+            <div class="portfolio-more">
+                <a href="portfolio.html" class="portfolio-btn">全部作品</a>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <p>&copy; 2024 介之的世界 | jiezhiworld</p>
+    </footer>
+    <script src="works-data.js"></script>
+    <script>
+    // 渲染主页作品集区块
+    function renderHomePortfolio() {
+        const list = document.querySelector('.portfolio-list.no-bg');
+        list.innerHTML = '';
+        // 按时间倒序取最新三篇
+        const latest = works.slice().sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 3);
+        latest.forEach(work => {
+            const item = document.createElement('div');
+            item.className = 'portfolio-item no-bg';
+            item.innerHTML = `
+                <h3><a href="work.html?id=${work.id}">${work.title}</a></h3>
+                <p>${work.content.split(/\r?\n|。|！|!|\?|？|<br\s*\/?\s*>/)[0]}</p>
+            `;
+            list.appendChild(item);
+        });
+    }
+    renderHomePortfolio();
+    </script>
+</body>
+</html> 

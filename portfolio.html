@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全部作品 | 介之的世界</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .portfolio-title {
+            text-align: center;
+            font-size: 2.2em;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+            font-weight: 700;
+            color: #ffd479;
+            margin-top: 2.2em;
+            margin-bottom: 0.5em;
+            letter-spacing: 2px;
+        }
+        .portfolio-sort-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin: 0 2.5em 1.5em 2.5em;
+        }
+        .portfolio-sort-btn {
+            display: inline-block;
+            padding: 0.7em 2em;
+            background: linear-gradient(90deg, #ffd479 0%, #bfa76a 100%);
+            color: #232526;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.08em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(255,212,121,0.10);
+            border: none;
+            outline: none;
+            margin-left: 1em;
+            margin-right: 0;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .portfolio-sort-btn.active, .portfolio-sort-btn:hover {
+            background: linear-gradient(90deg, #bfa76a 0%, #ffd479 100%);
+            color: #fffbe6;
+            box-shadow: 0 4px 16px rgba(255,212,121,0.13);
+        }
+        .portfolio-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            margin: 2em auto 0 auto;
+            max-width: 700px;
+        }
+        .portfolio-item {
+            padding: 0.1em 0.5em;
+            border-bottom: 1.5px solid #ffd47933;
+            margin: 0 1em;
+            transition: background 0.2s;
+        }
+        .portfolio-item:last-child {
+            border-bottom: none;
+        }
+        .portfolio-item h3 {
+            margin: 0 0 0.5em 0;
+            font-size: 1.15em;
+            color: #ffd479;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .portfolio-item h3 a {
+            color: #ffd479;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .portfolio-item h3 a:hover {
+            color: #fffbe6;
+            text-decoration: underline;
+        }
+        .portfolio-item .first-line {
+            color: #808080;
+            font-size: 1em;
+            margin-top: 0.2em;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1em;
+            margin: 2em 0 1em 0;
+        }
+        .pagination-btn {
+            padding: 0.5em 1.5em;
+            background: linear-gradient(90deg, #ffd479 0%, #bfa76a 100%);
+            color: #232526;
+            border-radius: 18px;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(255,212,121,0.10);
+            border: none;
+            outline: none;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .pagination-btn:hover:not(:disabled) {
+            background: linear-gradient(90deg, #bfa76a 0%, #ffd479 100%);
+            color: #fffbe6;
+            box-shadow: 0 4px 16px rgba(255,212,121,0.13);
+        }
+        .back-home-btn {
+            display: inline-block;
+            padding: 0.8em 2.2em;
+            background: linear-gradient(90deg, #ffd479 0%, #bfa76a 100%);
+            color: #232526;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(255,212,121,0.10);
+            border: none;
+            outline: none;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .back-home-btn:hover {
+            background: linear-gradient(90deg, #bfa76a 0%, #ffd479 100%);
+            color: #fffbe6;
+            box-shadow: 0 4px 16px rgba(255,212,121,0.13);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content" style="margin-left:0;">
+        <div class="portfolio-title">全部作品</div>
+        <div class="portfolio-sort-bar">
+            <button class="portfolio-sort-btn active">按时间</button>
+            <button class="portfolio-sort-btn">按合辑</button>
+        </div>
+        <div class="portfolio-list" id="portfolio-list">
+            <!-- 作品列表由JS动态生成 -->
+        </div>
+        <div class="pagination" id="pagination"></div>
+        <div style="text-align:center; margin-top:2em; margin-bottom:2em;">
+            <a href="index.html" class="back-home-btn">返回主页</a>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 介之的世界 | jiezhiworld</p>
+    </footer>
+    <script src="works-data.js"></script>
+    <script>
+        // 分页参数
+        const pageSize = 20;
+        let currentPage = 1;
+        let sortType = 'time'; // 'time' or 'collection'
+        let sortedWorks = [];
+        let currentCollection = null; // 添加当前选中的专辑
+
+        function parseChineseDate(dateStr) {
+            const [year, month, day] = dateStr.match(/(\d+)年(\d+)月(\d+)日/).slice(1).map(Number);
+            return new Date(year, month - 1, day);
+        }
+
+        function sortWorks() {
+            if (sortType === 'time') {
+                sortedWorks = works.slice().sort((a, b) => {
+                    const dateA = parseChineseDate(a.date);
+                    const dateB = parseChineseDate(b.date);
+                    return dateB - dateA; // 确保最新的日期排在前面
+                });
+            } else {
+                sortedWorks = works.slice().sort((a, b) => {
+                    if (a.collection === b.collection) {
+                        const dateA = parseChineseDate(a.date);
+                        const dateB = parseChineseDate(b.date);
+                        return dateB - dateA; // 确保最新的日期排在前面
+                    }
+                    // 空专辑排最后
+                    if (!a.collection) return 1;
+                    if (!b.collection) return -1;
+                    return a.collection.localeCompare(b.collection, 'zh-Hans-CN');
+                });
+            }
+
+            // 如果当前有选中的专辑，只显示该专辑的作品
+            if (currentCollection) {
+                sortedWorks = sortedWorks.filter(work => work.collection === currentCollection);
+            }
+        }
+
+        // 渲染作品列表
+        function renderList(page = 1) {
+            sortWorks();
+            const list = document.getElementById('portfolio-list');
+            list.innerHTML = '';
+            const start = (page - 1) * pageSize;
+            const end = start + pageSize;
+            sortedWorks.slice(start, end).forEach(work => {
+                const item = document.createElement('div');
+                item.className = 'portfolio-item';
+                const firstLine = (work.content || '').replace(/<br\s*\/??\s*>/g, '\n').split(/\r?\n|。|！|!|\?|？/)[0];
+                item.innerHTML = `
+                    <h3><a href="work.html?id=${work.id}">${work.title}</a></h3>
+                    <div class="first-line">${firstLine}</div>
+                `;
+                list.appendChild(item);
+            });
+            renderPagination(page);
+        }
+
+        // 获取URL参数
+        function getQueryParam(name) {
+            const url = new URL(window.location.href);
+            return url.searchParams.get(name);
+        }
+
+        // 初始化时检查URL参数
+        document.addEventListener('DOMContentLoaded', function() {
+            const collection = getQueryParam('collection');
+            if (collection) {
+                currentCollection = decodeURIComponent(collection);
+                sortType = 'time';
+                document.querySelector('.portfolio-sort-btn.active').classList.remove('active');
+                document.querySelector('.portfolio-sort-btn').classList.add('active');
+            }
+
+            const sortBtns = document.querySelectorAll('.portfolio-sort-btn');
+            sortBtns[0].onclick = function() {
+                sortType = 'time';
+                sortBtns[0].classList.add('active');
+                sortBtns[1].classList.remove('active');
+                currentCollection = null;
+                currentPage = 1;
+                renderList(currentPage);
+            };
+            sortBtns[1].onclick = function() {
+                sortType = 'collection';
+                sortBtns[1].classList.add('active');
+                sortBtns[0].classList.remove('active');
+                currentCollection = null;
+                currentPage = 1;
+                renderList(currentPage);
+            };
+        });
+
+        // 分页控件
+        function renderPagination(page) {
+            const total = sortedWorks.length;
+            const totalPages = Math.ceil(total / pageSize);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            const prevBtn = document.createElement('button');
+            prevBtn.className = 'pagination-btn';
+            prevBtn.textContent = '上一页';
+            prevBtn.disabled = page === 1;
+            prevBtn.onclick = () => { if(page > 1) { currentPage--; renderList(currentPage); window.scrollTo(0,0); } };
+            pagination.appendChild(prevBtn);
+            const pageInfo = document.createElement('span');
+            pageInfo.textContent = `第 ${page} / ${totalPages} 页`;
+            pageInfo.style.margin = '0 1em';
+            pagination.appendChild(pageInfo);
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'pagination-btn';
+            nextBtn.textContent = '下一页';
+            nextBtn.disabled = page === totalPages;
+            nextBtn.onclick = () => { if(page < totalPages) { currentPage++; renderList(currentPage); window.scrollTo(0,0); } };
+            pagination.appendChild(nextBtn);
+        }
+
+        // 默认渲染第一页
+        sortWorks();
+        renderList(1);
+    </script>
+</body>
+</html> 

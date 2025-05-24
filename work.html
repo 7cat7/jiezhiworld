@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品详情 | 介之的世界</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .work-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2em;
+            flex-wrap: wrap;
+        }
+        .work-title {
+            width: 100%;
+            text-align: center;
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 0.5em;
+        }
+        .work-meta {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5em;
+        }
+        .work-date {
+            color: #888;
+            font-size: 1em;
+        }
+        .work-collection {
+            color: #808080;
+            font-size: 1em;
+            font-weight: bold;
+        }
+        .work-content {
+            font-size: 1.18em;
+            color: #f3f3f3;
+            line-height: 1.85;
+            max-width: 800px;
+            margin: 0 auto;
+            background: none;
+            border-radius: 0;
+            box-shadow: none;
+            padding: 2.5em 2em;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+            letter-spacing: 0.02em;
+            border-bottom: 2px solid #ffd47933;
+        }
+        .work-nav {
+            display: flex;
+            justify-content: center;
+            gap: 2em;
+            margin: 2.5em 0 1em 0;
+        }
+        .work-nav a {
+            display: inline-block;
+            padding: 0.8em 2.2em;
+            background: linear-gradient(90deg, #ffd479 0%, #bfa76a 100%);
+            color: #232526;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(255,212,121,0.10);
+            border: none;
+            outline: none;
+            margin: 0 0.5em;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .work-nav a:hover {
+            background: linear-gradient(90deg, #bfa76a 0%, #ffd479 100%);
+            color: #fffbe6;
+            box-shadow: 0 4px 16px rgba(255,212,121,0.13);
+        }
+        .back-home-btn {
+            padding: 0.8em 2.2em;
+            background: linear-gradient(90deg, #ffd479 0%, #bfa76a 100%);
+            color: #232526;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(255,212,121,0.10);
+            border: none;
+            outline: none;
+            margin: 0 0.5em;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .back-home-btn:hover {
+            background: linear-gradient(90deg, #bfa76a 0%, #ffd479 100%);
+            color: #fffbe6;
+            box-shadow: 0 4px 16px rgba(255,212,121,0.13);
+        }
+        .small {
+            padding: 0.8em 2.2em;
+            background: linear-gradient(90deg, #ffd479 0%, #bfa76a 100%);
+            color: #232526;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(255,212,121,0.10);
+            border: none;
+            outline: none;
+            margin: 0 0.5em;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .small:hover {
+            background: linear-gradient(90deg, #bfa76a 0%, #ffd479 100%);
+            color: #fffbe6;
+            box-shadow: 0 4px 16px rgba(255,212,121,0.13);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content" style="margin-left:0;">
+        <section class="section portfolio-section" style="min-height:auto;">
+            <div class="work-header">
+                <div class="work-title" id="work-title"></div>
+                <div class="work-meta">
+                    <span class="work-date" id="work-date"></span>
+                    <span class="work-collection" id="work-collection"></span>
+                </div>
+            </div>
+            <div class="work-content" id="work-content"></div>
+            <div class="work-nav" id="work-nav"></div>
+        </section>
+    </div>
+    <footer>
+        <p>&copy; 2024 介之的世界 | jiezhiworld</p>
+    </footer>
+    <script src="works-data.js"></script>
+    <script>
+        // 获取URL参数
+        function getQueryParam(name) {
+            const url = new URL(window.location.href);
+            return url.searchParams.get(name);
+        }
+        const id = parseInt(getQueryParam('id'), 10);
+        const work = works.find(w => w.id === id) || works[0];
+        document.getElementById('work-title').innerHTML = work.title;
+        document.getElementById('work-date').innerHTML = work.date;
+        document.getElementById('work-collection').innerHTML = work.collection ? 
+            `<a href="portfolio.html?collection=${encodeURIComponent(work.collection)}" style="color: inherit; text-decoration: none;">${work.collection}</a>` : '';
+        document.getElementById('work-content').innerHTML = work.content;
+        // 渲染底部导航
+        function renderNav(id) {
+            const nav = document.getElementById('work-nav');
+            let html = '';
+            if (works.find(w => w.id === id - 1)) {
+                html += `<a href="work.html?id=${id - 1}" class="back-home-btn">上一篇</a>`;
+            }
+            html += `<a href="portfolio.html" class="back-home-btn">返回作品集</a>`;
+            html += `<a href="index.html" class="back-home-btn">返回主页</a>`;
+            if (works.find(w => w.id === id + 1)) {
+                html += `<a href="work.html?id=${id + 1}" class="back-home-btn">下一篇</a>`;
+            }
+            nav.innerHTML = html;
+        }
+        renderNav(id);
+    </script>
+</body>
+</html> 
