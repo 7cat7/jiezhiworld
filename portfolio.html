@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全部作品 | 介之的世界</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .portfolio-title {
+            text-align: center;
+            font-size: 2.2em;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+            font-weight: 700;
+            color: #ffd479;
+            margin-top: 2.2em;
+            margin-bottom: 0.5em;
+            letter-spacing: 2px;
+        }
+        .portfolio-sort-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin: 0 2.5em 1.5em 2.5em;
+        }
+        .portfolio-sort-btn {
+            display: inline-block;
+            padding: 0.7em 2em;
+            background: linear-gradient(90deg, #ffd479 0%, #bfa76a 100%);
+            color: #232526;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.08em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(255,212,121,0.10);
+            border: none;
+            outline: none;
+            margin-left: 1em;
+            margin-right: 0;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .portfolio-sort-btn.active, .portfolio-sort-btn:hover {
+            background: linear-gradient(90deg, #bfa76a 0%, #ffd479 100%);
+            color: #fffbe6;
+            box-shadow: 0 4px 16px rgba(255,212,121,0.13);
+        }
+        .portfolio-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            margin: 2em auto 0 auto;
+            max-width: 700px;
+        }
+        .portfolio-item {
+            padding: 0.1em 0.5em;
+            border-bottom: 1.5px solid #ffd47933;
+            margin: 0 1em;
+            transition: background 0.2s;
+        }
+        .portfolio-item:last-child {
+            border-bottom: none;
+        }
+        .portfolio-item h3 {
+            margin: 0 0 0.5em 0;
+            font-size: 1.15em;
+            color: #ffd479;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .portfolio-item h3 a {
+            color: #ffd479;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .portfolio-item h3 a:hover {
+            color: #fffbe6;
+            text-decoration: underline;
+        }
+        .portfolio-item .first-line {
+            color: #808080;
+            font-size: 1em;
+            margin-top: 0.2em;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1em;
+            margin: 2em 0 1em 0;
+        }
+        .pagination-btn {
+            padding: 0.5em 1.5em;
+            background: linear-gradient(90deg, #ffd479 0%, #bfa76a 100%);
+            color: #232526;
+            border-radius: 18px;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(255,212,121,0.10);
+            border: none;
+            outline: none;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .pagination-btn:hover:not(:disabled) {
+            background: linear-gradient(90deg, #bfa76a 0%, #ffd479 100%);
+            color: #fffbe6;
+            box-shadow: 0 4px 16px rgba(255,212,121,0.13);
+        }
+        .back-home-btn {
+            display: inline-block;
+            padding: 0.8em 2.2em;
+            background: linear-gradient(90deg, #ffd479 0%, #bfa76a 100%);
+            color: #232526;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            letter-spacing: 1px;
+            transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(255,212,121,0.10);
+            border: none;
+            outline: none;
+            font-family: 'Quicksand', 'Fira Sans', 'Segoe UI', Arial, sans-serif;
+        }
+        .back-home-btn:hover {
+            background: linear-gradient(90deg, #bfa76a 0%, #ffd479 100%);
+            color: #fffbe6;
+            box-shadow: 0 4px 16px rgba(255,212,121,0.13);
+        }
+    </style>
+</head>
+<body>
+    <div class="main-content" style="margin-left:0;">
+        <div class="portfolio-title">全部作品</div>
+        <div class="portfolio-sort-bar">
+            <button class="portfolio-sort-btn active" data-sort-type="time">按时间</button>
+            <div class="album-filter-container" style="position: relative; margin-left: 0.5em;">
+                <button id="filter-album-btn" class="portfolio-sort-btn">按专辑</button>
+                <div id="album-dropdown" style="display: none; position: absolute; top: 100%; right: 0; background: rgba(34,37,38,0.98); border: 1px solid #ffd479; border-radius: 8px; padding: 10px; z-index: 100; max-height: 200px; overflow-y: auto; margin-top: 5px; min-width: 180px; text-align: left;">
+                    <ul id="album-list" style="list-style: none; padding: 0; margin: 0;">
+                        <!-- Album list will be populated here -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="portfolio-list" id="portfolio-list">
+            <!-- 作品列表由JS动态生成 -->
+        </div>
+        <div class="pagination" id="pagination"></div>
+        <div style="text-align:center; margin-top:2em; margin-bottom:2em;">
+            <a href="index.html" class="back-home-btn">返回主页</a>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 介之的世界 | jiezhiworld</p>
+    </footer>
+    <script src="works-data.js"></script>
+    <script>
+        // 分页参数
+        const pageSize = 20;
+        let currentPage = 1;
+        let sortType = 'time'; // 'time' or 'collection'
+        let sortedWorks = [];
+        let currentCollection = null; // 添加当前选中的专辑
+        const portfolioTitle = document.querySelector('.portfolio-title');
+
+        function parseChineseDate(dateStr) {
+            const [year, month, day] = dateStr.match(/(\d+)年(\d+)月(\d+)日/).slice(1).map(Number);
+            return new Date(year, month - 1, day);
+        }
+
+        function sortWorks() {
+            let worksToSort = works.slice(); // Start with all works
+
+            if (currentCollection) {
+                worksToSort = worksToSort.filter(work => work.collection === currentCollection);
+            }
+
+            if (sortType === 'time') {
+                worksToSort.sort((a, b) => {
+                    const dateA = parseChineseDate(a.date);
+                    const dateB = parseChineseDate(b.date);
+                    return dateB - dateA; // 确保最新的日期排在前面
+                });
+            } else { // sortType === 'collection'
+                worksToSort.sort((a, b) => {
+                    if (a.collection === b.collection) {
+                        const dateA = parseChineseDate(a.date);
+                        const dateB = parseChineseDate(b.date);
+                        return dateB - dateA; // 确保最新的日期排在前面
+                    }
+                    // 空专辑排最后
+                    if (!a.collection) return 1;
+                    if (!b.collection) return -1;
+                    return a.collection.localeCompare(b.collection, 'zh-Hans-CN');
+                });
+            }
+            sortedWorks = worksToSort; // Update sortedWorks
+        }
+
+        // 渲染作品列表
+        function renderList(page = 1) {
+            currentPage = page; // Update current page
+            sortWorks(); // Sort/filter before rendering
+            const list = document.getElementById('portfolio-list');
+            list.innerHTML = '';
+            const start = (page - 1) * pageSize;
+            const end = start + pageSize;
+            sortedWorks.slice(start, end).forEach(work => {
+                const item = document.createElement('div');
+                item.className = 'portfolio-item';
+                const firstLine = (work.content || '').replace(/<br\s*\/??\s*>/g, '\n').split(/\r?\n|。|！|!|\?|？/)[0];
+                item.innerHTML = `
+                    <h3><a href="work.html?id=${work.id}">${work.title}</a></h3>
+                    <div class="first-line">(${work.date} - ${work.collection || '无专辑'})</div>
+                    <p>${firstLine}</p>
+                `;
+                list.appendChild(item);
+            });
+            renderPagination(page);
+
+            // Update title based on filter
+            portfolioTitle.textContent = currentCollection ? currentCollection : '全部作品';
+        }
+
+        // 获取URL参数
+        function getQueryParam(name) {
+            const url = new URL(window.location.href);
+            return url.searchParams.get(name);
+        }
+
+        // Populate album dropdown
+        function populateAlbumDropdown() {
+            const albumList = document.getElementById('album-list');
+            albumList.innerHTML = '';
+
+            // Get unique collections and their counts
+            const albumCounts = works.reduce((acc, work) => {
+                const collectionName = work.collection || '无专辑';
+                acc[collectionName] = (acc[collectionName] || 0) + 1;
+                return acc;
+            }, {});
+
+            // Add '全部' option to show all works
+            const allItem = document.createElement('li');
+            const allLink = document.createElement('a');
+            allLink.href = '#'; // Use # for SPA navigation
+            allLink.textContent = `全部 (${works.length})`;
+            allLink.style.color = '#e0e0e0';
+            allLink.style.textDecoration = 'none';
+            allLink.style.padding = '5px 10px';
+            allLink.style.display = 'block';
+            allLink.style.transition = 'color 0.2s, background-color 0.2s';
+            allLink.onmouseover = function() { this.style.color = '#ffd479'; this.style.backgroundColor = 'rgba(255,212,121,0.1)';};
+            allLink.onmouseout = function() { this.style.color = '#e0e0e0'; this.style.backgroundColor = 'transparent';};
+            allLink.onclick = function(e) {
+                e.preventDefault();
+                currentCollection = null; // Clear album filter
+                sortType = 'time'; // Reset sort to time when showing all
+                document.querySelector('.portfolio-sort-btn[data-sort-type="time"]').classList.add('active');
+                document.querySelector('.portfolio-sort-btn[data-sort-type="collection"]').classList.remove('active');
+                renderList(1); // Render first page of all works
+                document.getElementById('album-dropdown').style.display = 'none'; // Hide dropdown
+            };
+            albumList.appendChild(allItem); // Add '全部' at the beginning
+
+            // Create list items for each album
+            for (const album in albumCounts) {
+                 if (album === '全部') continue; // Skip if '全部' somehow gets into albumCounts
+                const listItem = document.createElement('li');
+                const albumLink = document.createElement('a');
+                albumLink.href = '#'; // Use # for SPA navigation
+                albumLink.textContent = `${album} (${albumCounts[album]})`;
+                albumLink.style.color = '#e0e0e0';
+                albumLink.style.textDecoration = 'none';
+                albumLink.style.padding = '5px 10px';
+                albumLink.style.display = 'block';
+                 albumLink.style.transition = 'color 0.2s, background-color 0.2s';
+                albumLink.onmouseover = function() { this.style.color = '#ffd479'; this.style.backgroundColor = 'rgba(255,212,121,0.1)';};
+                albumLink.onmouseout = function() { this.style.color = '#e0e0e0'; this.style.backgroundColor = 'transparent';};
+                albumLink.onclick = function(e) {
+                    e.preventDefault();
+                    currentCollection = album; // Set album filter
+                    sortType = 'time'; // Reset sort to time when filtering by album
+                    document.querySelector('.portfolio-sort-btn[data-sort-type="time"]').classList.add('active');
+                    document.querySelector('.portfolio-sort-btn[data-sort-type="collection"]').classList.remove('active');
+                    renderList(1); // Render first page of filtered works
+                    document.getElementById('album-dropdown').style.display = 'none'; // Hide dropdown
+                };
+                listItem.appendChild(albumLink);
+                albumList.appendChild(listItem);
+            }
+        }
+
+        // Event listener for the filter button
+        document.getElementById('filter-album-btn').onclick = function() {
+            const dropdown = document.getElementById('album-dropdown');
+            if (dropdown.style.display === 'none') {
+                populateAlbumDropdown(); // Populate every time
+                dropdown.style.display = 'block';
+            } else {
+                dropdown.style.display = 'none';
+            }
+        };
+
+        // Event listeners for sorting buttons
+         document.querySelectorAll('.portfolio-sort-btn[data-sort-type]').forEach(button => {
+             button.onclick = function() {
+                 sortType = this.getAttribute('data-sort-type');
+                 document.querySelectorAll('.portfolio-sort-btn[data-sort-type]').forEach(btn => btn.classList.remove('active'));
+                 this.classList.add('active');
+                 currentCollection = null; // Clear album filter when using main sort buttons
+                 renderList(1);
+             };
+         });
+
+
+        // Hide dropdown when clicking outside
+        window.onclick = function(event) {
+            if (!event.target.closest('.album-filter-container')) {
+                const dropdown = document.getElementById('album-dropdown');
+                if (dropdown.style.display === 'block') {
+                    dropdown.style.display = 'none';
+                }
+            }
+        };
+
+
+        // Initial render
+        document.addEventListener('DOMContentLoaded', function() {
+             // Check for collection param in URL on load (optional)
+             const urlCollection = getQueryParam('collection');
+             if(urlCollection) {
+                 currentCollection = decodeURIComponent(urlCollection);
+                  // You might want to highlight the '按专辑' button and the selected album here
+             }
+            renderList(1); // Render initial list on page load
+        });
+
+    </script>
+</body>
+</html> 
