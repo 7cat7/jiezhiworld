@@ -6,11 +6,6 @@
         prose: '散文'
     };
 
-    const LIBRARIES = [
-        { path: 'poem.md', type: 'poetry', source: 'poem' },
-        { path: 'article.md', type: 'prose', source: 'article' }
-    ];
-
     let libraryWorks = [];
     let sourceError = '';
 
@@ -80,7 +75,7 @@
     function normalizeWork(work, index, source, fallbackType) {
         const type = normalizeType(work.type, fallbackType);
         const timestamp = work.timestamp || parseDateToTimestamp(work.date) || '1970-01-01T12:00:00.000Z';
-        const date = timestampToDate(timestamp) || String(work.date || '').trim();
+        const date = work.date || timestampToDate(timestamp);
 
         return {
             id: String(work.id || `${source}-${index + 1}`),
@@ -92,13 +87,14 @@
             type,
             typeLabel: TYPE_LABELS[type],
             content: htmlToText(work.content),
-            source: source || 'markdown'
+            source: source || work.source || 'library'
         };
     }
 
     function parseMarkdownLibrary(markdown, defaultType, source) {
         const text = String(markdown || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
         const blocks = text
+            .replace(/^\uFEFF/, '')
             .split(/\n(?=##\s+)/)
             .map(block => block.trim())
             .filter(block => /^##\s+/.test(block));
@@ -134,32 +130,22 @@
         }).filter(work => work.title && work.content);
     }
 
-    function getEmbeddedMarkdown(path) {
-        const data = window.JIEZHIWORLD_MARKDOWN_DATA || {};
-        return data[path] || '';
-    }
-
-    async function fetchMarkdown(library) {
-        const embedded = getEmbeddedMarkdown(library.path);
-
-        try {
-            const response = await fetch(library.path, { cache: 'no-store' });
-            if (!response.ok) throw new Error(`${library.path}: ${response.status}`);
-            const text = await response.text();
-            return text || embedded;
-        } catch (error) {
-            return embedded;
-        }
-    }
-
     async function loadLibraries() {
-        const loaded = await Promise.all(LIBRARIES.map(async library => {
-            const markdown = await fetchMarkdown(library);
-            return parseMarkdownLibrary(markdown, library.type, library.source);
-        }));
+        const generatedWorks = Array.isArray(window.JIEZHIWORLD_WORKS)
+            ? window.JIEZHIWORLD_WORKS
+            : [];
 
-        libraryWorks = loaded.flat();
-        sourceError = libraryWorks.length ? '' : '没有读取到 poem.md / article.md。请检查文件是否在网站根目录。';
+        if (generatedWorks.length) {
+            libraryWorks = generatedWorks.map((work, index) => normalizeWork(work, index, work.source || 'library', work.type));
+            sourceError = '';
+            return;
+        }
+
+        const embedded = window.JIEZHIWORLD_MARKDOWN_DATA || {};
+        const poemWorks = parseMarkdownLibrary(embedded['poem.md'] || '', 'poetry', 'poem');
+        const articleWorks = parseMarkdownLibrary(embedded['article.md'] || '', 'prose', 'article');
+        libraryWorks = poemWorks.concat(articleWorks);
+        sourceError = libraryWorks.length ? '' : '没有读取到作品数据。请确认 js/library-data.js 已部署。';
     }
 
     function getAllWorks() {
