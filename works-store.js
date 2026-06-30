@@ -1,11 +1,11 @@
 (function () {
     'use strict';
 
-    const STORAGE_KEY = 'jiezhiworld.localWorks.v2';
     const TYPE_LABELS = {
         poetry: '诗歌',
         prose: '散文'
     };
+
     const LIBRARIES = [
         { path: 'poem.md', type: 'poetry', source: 'poem' },
         { path: 'article.md', type: 'prose', source: 'article' }
@@ -62,6 +62,7 @@
         if (!timestamp) return '';
         const date = new Date(timestamp);
         if (Number.isNaN(date.getTime())) return '';
+
         return [
             date.getUTCFullYear(),
             String(date.getUTCMonth() + 1).padStart(2, '0'),
@@ -78,8 +79,9 @@
 
     function normalizeWork(work, index, source, fallbackType) {
         const type = normalizeType(work.type, fallbackType);
-        const timestamp = work.timestamp || parseDateToTimestamp(work.date) || new Date(0).toISOString();
+        const timestamp = work.timestamp || parseDateToTimestamp(work.date) || '1970-01-01T12:00:00.000Z';
         const date = timestampToDate(timestamp) || String(work.date || '').trim();
+
         return {
             id: String(work.id || `${source}-${index + 1}`),
             title: String(work.title || '未命名作品').trim(),
@@ -90,13 +92,16 @@
             type,
             typeLabel: TYPE_LABELS[type],
             content: htmlToText(work.content),
-            source: source || 'local'
+            source: source || 'markdown'
         };
     }
 
     function parseMarkdownLibrary(markdown, defaultType, source) {
         const text = String(markdown || '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-        const blocks = text.split(/\n(?=##\s+)/).filter(block => /^##\s+/.test(block.trim()));
+        const blocks = text
+            .split(/\n(?=##\s+)/)
+            .map(block => block.trim())
+            .filter(block => /^##\s+/.test(block));
 
         return blocks.map((block, index) => {
             const lines = block.split('\n');
@@ -110,8 +115,10 @@
                     cursor += 1;
                     break;
                 }
+
                 const match = line.match(/^([A-Za-z][\w-]*)\s*:\s*(.*)$/);
                 if (!match) break;
+
                 meta[match[1].toLowerCase()] = match[2].trim();
                 cursor += 1;
             }
@@ -127,60 +134,45 @@
         }).filter(work => work.title && work.content);
     }
 
-    async function fetchText(path, optional) {
+    function getEmbeddedMarkdown(path) {
+        const data = window.JIEZHIWORLD_MARKDOWN_DATA || {};
+        return data[path] || '';
+    }
+
+    async function fetchMarkdown(library) {
+        const embedded = getEmbeddedMarkdown(library.path);
+
         try {
-            const response = await fetch(path, { cache: 'no-store' });
-            if (!response.ok) {
-                if (optional && response.status === 404) return '';
-                throw new Error(`${path}: ${response.status}`);
-            }
-            return await response.text();
+            const response = await fetch(library.path, { cache: 'no-store' });
+            if (!response.ok) throw new Error(`${library.path}: ${response.status}`);
+            const text = await response.text();
+            return text || embedded;
         } catch (error) {
-            if (optional) return '';
-            throw error;
+            return embedded;
         }
     }
 
     async function loadLibraries() {
-        try {
-            const loaded = await Promise.all(LIBRARIES.map(async library => {
-                const markdown = await fetchText(library.path, library.source === 'article');
-                return parseMarkdownLibrary(markdown, library.type, library.source);
-            }));
-            libraryWorks = loaded.flat();
-            sourceError = libraryWorks.length ? '' : '没有读取到作品。';
-        } catch (error) {
-            console.warn('读取作品 Markdown 失败：', error);
-            libraryWorks = [];
-            sourceError = '未能读取 poem.md / article.md。';
-        }
-    }
+        const loaded = await Promise.all(LIBRARIES.map(async library => {
+            const markdown = await fetchMarkdown(library);
+            return parseMarkdownLibrary(markdown, library.type, library.source);
+        }));
 
-    function loadLocalWorks() {
-        try {
-            const raw = window.localStorage.getItem(STORAGE_KEY);
-            if (!raw) return [];
-            const parsed = JSON.parse(raw);
-            return Array.isArray(parsed) ? parsed : [];
-        } catch (error) {
-            console.warn('读取本地作品库失败：', error);
-            return [];
-        }
-    }
-
-    function saveLocalWorks(works) {
-        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(works, null, 2));
+        libraryWorks = loaded.flat();
+        sourceError = libraryWorks.length ? '' : '没有读取到 poem.md / article.md。请检查文件是否在网站根目录。';
     }
 
     function getAllWorks() {
-        const local = loadLocalWorks().map((work, index) => normalizeWork(work, index, 'local', work.type));
-        return libraryWorks.concat(local);
+        return libraryWorks.slice();
     }
 
     function compareWorks(order) {
         const direction = order === 'asc' ? 1 : -1;
+
         return (a, b) => {
-            if (a.sortTime === b.sortTime) return a.title.localeCompare(b.title, 'zh-Hans-CN');
+            if (a.sortTime === b.sortTime) {
+                return a.title.localeCompare(b.title, 'zh-Hans-CN');
+            }
             return (a.sortTime - b.sortTime) * direction;
         };
     }
@@ -189,10 +181,16 @@
         const opts = options || {};
         let result = getAllWorks();
 
-        if (opts.type && opts.type !== 'all') result = result.filter(work => work.type === opts.type);
+        if (opts.type && opts.type !== 'all') {
+            result = result.filter(work => work.type === opts.type);
+        }
+
         if (opts.keyword) {
             const keyword = String(opts.keyword).trim().toLowerCase();
-            result = result.filter(work => `${work.title}\n${work.collection}\n${work.content}`.toLowerCase().includes(keyword));
+            result = result.filter(work => {
+                const text = `${work.title}\n${work.collection}\n${work.content}`.toLowerCase();
+                return text.includes(keyword);
+            });
         }
 
         return result.sort(compareWorks(opts.order || 'desc'));
@@ -204,7 +202,9 @@
     }
 
     function firstLine(work) {
-        return (String(work.content || '').split(/\n|。|！|!|\?|？/).find(line => line.trim()) || '').trim();
+        return (String(work.content || '')
+            .split(/\n|。|！|!|\?|？/)
+            .find(line => line.trim()) || '').trim();
     }
 
     function buildWorkCard(work) {
@@ -216,63 +216,6 @@
             <p>${escapeHtml(firstLine(work))}</p>
         `;
         return item;
-    }
-
-    function addLocalWork(work) {
-        const localWorks = loadLocalWorks();
-        const timestamp = parseDateToTimestamp(work.date) || work.timestamp || new Date().toISOString();
-        const next = {
-            id: `local-${Date.now()}`,
-            title: String(work.title || '未命名作品').trim(),
-            date: timestampToDate(timestamp),
-            timestamp,
-            collection: String(work.collection || '').trim(),
-            type: normalizeType(work.type, 'poetry'),
-            content: htmlToText(work.content)
-        };
-        localWorks.unshift(next);
-        saveLocalWorks(localWorks);
-        return next;
-    }
-
-    function importLocalWorks(importedWorks, fallbackType) {
-        const incoming = Array.isArray(importedWorks) ? importedWorks : [importedWorks];
-        const localWorks = loadLocalWorks();
-        const now = Date.now();
-        incoming.forEach((work, index) => {
-            const timestamp = parseDateToTimestamp(work.date) || work.timestamp || new Date().toISOString();
-            localWorks.unshift({
-                id: work.id || `local-${now}-${index}`,
-                title: String(work.title || '未命名作品').trim(),
-                date: timestampToDate(timestamp),
-                timestamp,
-                collection: String(work.collection || '').trim(),
-                type: normalizeType(work.type, fallbackType || 'poetry'),
-                content: htmlToText(work.content)
-            });
-        });
-        saveLocalWorks(localWorks);
-        return incoming.length;
-    }
-
-    function clearLocalWorks() {
-        window.localStorage.removeItem(STORAGE_KEY);
-    }
-
-    function exportLocalWorks() {
-        return loadLocalWorks();
-    }
-
-    function downloadJson(filename, data) {
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json;charset=utf-8' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-        URL.revokeObjectURL(url);
     }
 
     window.WorksStore = {
@@ -289,11 +232,6 @@
         getAllWorks,
         queryWorks,
         getWorkById,
-        addLocalWork,
-        importLocalWorks,
-        clearLocalWorks,
-        exportLocalWorks,
-        downloadJson,
         buildWorkCard
     };
 })();

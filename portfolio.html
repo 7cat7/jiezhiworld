@@ -14,64 +14,15 @@
             <input id="portfolio-search" class="portfolio-search" type="search" placeholder="搜索标题、专辑或正文">
             <a class="portfolio-sort-btn" data-board-link="poetry" href="portfolio.html?type=poetry">诗歌</a>
             <a class="portfolio-sort-btn" data-board-link="prose" href="portfolio.html?type=prose">散文</a>
-            <button id="toggle-upload-panel" class="portfolio-sort-btn">添加作品</button>
         </div>
 
-        <section id="upload-panel" class="upload-panel" hidden>
-            <h2>添加作品</h2>
-            <p class="upload-hint">诗歌主库为 poem.md，散文主库为 article.md。静态网页无法直接写回项目文件；这里会先保存到当前浏览器本地。</p>
-
-            <form id="work-upload-form" class="work-upload-form">
-                <div class="form-row">
-                    <label for="work-title-input">标题</label>
-                    <input id="work-title-input" name="title" type="text" placeholder="作品标题" required>
-                </div>
-
-                <div class="form-row form-row-inline">
-                    <div>
-                        <label for="work-type-input">板块</label>
-                        <select id="work-type-input" name="type">
-                            <option value="poetry">诗歌</option>
-                            <option value="prose">散文</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label for="work-date-input">时间戳</label>
-                        <input id="work-date-input" name="date" type="date" required>
-                    </div>
-
-                    <div>
-                        <label for="work-collection-input">专辑 / 系列</label>
-                        <input id="work-collection-input" name="collection" type="text" placeholder="如：再见，海浪">
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <label for="work-file-input">上传 txt / md / json</label>
-                    <input id="work-file-input" type="file" accept=".txt,.md,.json,text/plain,text/markdown,application/json">
-                </div>
-
-                <div class="form-row">
-                    <label for="work-content-input">正文</label>
-                    <textarea id="work-content-input" name="content" rows="12" placeholder="可直接粘贴正文；换行会被保留。" required></textarea>
-                </div>
-
-                <div class="upload-actions">
-                    <button type="submit" class="portfolio-sort-btn active">保存到本地作品库</button>
-                    <button type="button" id="export-local-works" class="portfolio-sort-btn">导出本地 JSON</button>
-                    <button type="button" id="clear-local-works" class="portfolio-sort-btn danger-btn">清空本地新增</button>
-                </div>
-            </form>
-        </section>
-
         <section id="library-landing" class="library-entry-grid">
-            <a class="library-entry-card" href="portfolio.html?type=poetry">
+            <a class="library-entry-card" data-board-link="poetry" href="portfolio.html?type=poetry">
                 <h2>诗歌</h2>
                 <p>进入诗歌作品库</p>
             </a>
 
-            <a class="library-entry-card" href="portfolio.html?type=prose">
+            <a class="library-entry-card" data-board-link="prose" href="portfolio.html?type=prose">
                 <h2>散文</h2>
                 <p>进入散文作品库</p>
             </a>
@@ -100,6 +51,7 @@
     <footer>
         <p>&copy; 2024 介之的世界 | jiezhiworld</p>
     </footer>
+    <script src="js/markdown-data.js"></script>
     <script src="js/works-store.js"></script>
     <script src="js/portfolio.js"></script>
 </body>

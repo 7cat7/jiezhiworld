@@ -574,8 +574,7 @@ footer {
 }
 
 .compact-controls .portfolio-sort-btn,
-.refactor-sort-bar .portfolio-sort-btn,
-.upload-actions .portfolio-sort-btn {
+.refactor-sort-bar .portfolio-sort-btn {
     padding: 0.65em 1.5em;
     font-size: 1em;
 }
@@ -586,10 +585,7 @@ footer {
     box-shadow: 0 4px 16px rgba(255,212,121,0.13);
 }
 
-.portfolio-search,
-.work-upload-form input,
-.work-upload-form select,
-.work-upload-form textarea {
+.portfolio-search {
     box-sizing: border-box;
     width: 100%;
     border: 1px solid #ffd47955;
@@ -606,67 +602,18 @@ footer {
     margin-right: auto;
 }
 
-.portfolio-search:focus,
-.work-upload-form input:focus,
-.work-upload-form select:focus,
-.work-upload-form textarea:focus {
+.portfolio-search:focus {
     border-color: #ffd479;
     box-shadow: 0 0 0 3px rgba(255,212,121,0.10);
 }
 
-.upload-panel {
-    max-width: 900px;
-    margin: 1em auto 2em auto;
-    padding: 2em;
-    border-radius: 24px;
-    background: rgba(255,255,255,0.05);
-    box-shadow: 0 2px 16px rgba(0,0,0,0.10);
-}
 
-.upload-panel h2 {
-    margin: 0 0 0.4em 0;
-    color: #ffd479;
-    text-align: center;
-}
 
-.upload-hint {
-    color: #cfcfcf;
-    text-align: center;
-    line-height: 1.7;
-    margin: 0 0 1.5em 0;
-}
 
-.work-upload-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1em;
-}
 
-.form-row label {
-    display: block;
-    margin-bottom: 0.5em;
-    color: #ffd479;
-    font-weight: 700;
-}
 
-.form-row-inline {
-    display: grid;
-    grid-template-columns: minmax(120px, 0.75fr) minmax(160px, 1fr) minmax(220px, 1.5fr);
-    gap: 1em;
-}
 
-.upload-actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.8em;
-    margin-top: 0.8em;
-}
 
-.danger-btn {
-    opacity: 0.86;
-}
 
 
 
@@ -716,9 +663,7 @@ footer {
 }
 
 @media (max-width: 680px) {
-    .form-row-inline {
-        grid-template-columns: 1fr;
-    }
+    
 
     .portfolio-sort-bar,
     .portfolio-controls {
@@ -726,11 +671,7 @@ footer {
         margin-right: 1em;
     }
 
-    .upload-panel {
-        margin-left: 1em;
-        margin-right: 1em;
-        padding: 1.4em;
-    }
+    
 }
 
 
@@ -833,4 +774,28 @@ footer {
         margin-right: 1em;
         padding: 1.2em;
     }
+}
+
+
+/* ===== 修正：作品库入口、搜索框与二级排序 ===== */
+.refactor-sort-bar {
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    padding: 0 2em;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+}
+
+.portfolio-search {
+    margin: 0;
+    max-width: 360px;
+    min-width: 220px;
+}
+
+.primary-library-menu .portfolio-sort-btn.active,
+.sub-sort-bar .portfolio-sort-btn.active,
+.library-entry-card.active {
+    background: linear-gradient(90deg, #bfa76a 0%, #ffd479 100%);
+    color: #fffbe6;
 }
