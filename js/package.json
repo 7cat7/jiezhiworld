@@ -1,5 +1,0 @@
-{
-  "scripts": {
-    "build": "node scripts/build-library-data.js"
-  }
-}
