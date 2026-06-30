@@ -130,21 +130,39 @@
         }).filter(work => work.title && work.content);
     }
 
+    async function fetchArticleMarkdown(embedded) {
+        const cached = embedded['article.md'] || '';
+        if (cached.trim()) return cached;
+
+        try {
+            const res = await fetch('article.md');
+            if (res.ok) return await res.text();
+        } catch (_) {}
+
+        return '';
+    }
+
     async function loadLibraries() {
         const generatedWorks = Array.isArray(window.JIEZHIWORLD_WORKS)
             ? window.JIEZHIWORLD_WORKS
             : [];
+        const embedded = window.JIEZHIWORLD_MARKDOWN_DATA || {};
 
+        let works = [];
         if (generatedWorks.length) {
-            libraryWorks = generatedWorks.map((work, index) => normalizeWork(work, index, work.source || 'library', work.type));
-            sourceError = '';
-            return;
+            works = generatedWorks.map((work, index) => normalizeWork(work, index, work.source || 'library', work.type));
+        } else {
+            works = parseMarkdownLibrary(embedded['poem.md'] || '', 'poetry', 'poem');
         }
 
-        const embedded = window.JIEZHIWORLD_MARKDOWN_DATA || {};
-        const poemWorks = parseMarkdownLibrary(embedded['poem.md'] || '', 'poetry', 'poem');
-        const articleWorks = parseMarkdownLibrary(embedded['article.md'] || '', 'prose', 'article');
-        libraryWorks = poemWorks.concat(articleWorks);
+        const hasProse = works.some(work => work.type === 'prose');
+        if (!hasProse) {
+            const articleMarkdown = await fetchArticleMarkdown(embedded);
+            const articleWorks = parseMarkdownLibrary(articleMarkdown, 'prose', 'article');
+            works = works.concat(articleWorks);
+        }
+
+        libraryWorks = works;
         sourceError = libraryWorks.length ? '' : '没有读取到作品数据。请确认 js/library-data.js 已部署。';
     }
 
