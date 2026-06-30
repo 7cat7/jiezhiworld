@@ -33,16 +33,15 @@
         </section>
         <section id="portfolio" class="section portfolio-section">
             <div class="section-title">作品集</div>
-            <div class="portfolio-controls" style="text-align: center; margin-bottom: 1em;">
-                <button id="filter-album-btn" class="portfolio-sort button">按专辑</button>
-                <div id="album-dropdown" style="display: none;">
-                    <ul id="album-list" style="list-style: none; padding: 0; margin: 0;">
-                        <!-- Album list will be populated here -->
-                    </ul>
-                </div>
+            <div class="portfolio-controls compact-controls">
+                <button class="portfolio-sort-btn active" data-home-type="all">全部</button>
+                <button class="portfolio-sort-btn" data-home-type="poetry">诗歌</button>
+                <button class="portfolio-sort-btn" data-home-type="prose">散文</button>
+                <button class="portfolio-sort-btn active" data-home-order="desc">倒序</button>
+                <button class="portfolio-sort-btn" data-home-order="asc">正序</button>
             </div>
             <div class="portfolio-list no-bg">
-                <!-- Works will be rendered here -->
+                <!-- 主页作品预览由 JS 动态生成 -->
             </div>
             <div class="portfolio-more">
                 <a href="portfolio.html" class="portfolio-btn">全部作品</a>
@@ -53,125 +52,7 @@
         <p>&copy; 2024 介之的世界 | jiezhiworld</p>
     </footer>
     <script src="works-data.js"></script>
-    <script>
-    // 渲染主页作品集区块
-    function renderWorks(filterAlbum = null) {
-        const list = document.querySelector('.portfolio-list.no-bg');
-        list.innerHTML = '';
-
-        let filteredWorks = works.slice();
-
-        if (filterAlbum) {
-            filteredWorks = works.filter(work => work.collection === filterAlbum);
-        }
-
-        // Sort by date descending
-        filteredWorks.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-        // Limit to latest 3 for home page if no filter applied, otherwise show all filtered works
-        const worksToDisplay = filterAlbum ? filteredWorks : filteredWorks.slice(0, 3);
-
-        worksToDisplay.forEach(work => {
-            const item = document.createElement('div');
-            item.className = 'portfolio-item no-bg';
-            // Display date and collection along with title
-            item.innerHTML = `
-                <h3><a href="work.html?id=${work.id}">${work.title}</a></h3>
-                <p>(${work.date} - ${work.collection})</p>
-                <p>${work.content.split(/\r?\n|。|！|!|\?|？|<br\s*\/?\s*>/)[0]}</p>
-            `;
-            list.appendChild(item);
-        });
-
-        // Update section title
-        const sectionTitle = document.querySelector('.portfolio-section .section-title');
-        sectionTitle.textContent = filterAlbum ? filterAlbum : '作品集';
-
-         // Hide '全部作品' button when filtered
-        const allWorksBtn = document.querySelector('.portfolio-more');
-        if (filterAlbum) {
-            allWorksBtn.style.display = 'none';
-        } else {
-            allWorksBtn.style.display = 'flex'; // Use flex because parent uses flex
-        }
-    }
-
-    // Populate album dropdown
-    function populateAlbumDropdown() {
-        const albumList = document.getElementById('album-list');
-        albumList.innerHTML = '';
-
-        // Get unique collections and their counts
-        const albumCounts = works.reduce((acc, work) => {
-            acc[work.collection] = (acc[work.collection] || 0) + 1;
-            return acc;
-        }, {});
-
-        // Create list items for each album
-        for (const album in albumCounts) {
-            const listItem = document.createElement('li');
-            const albumLink = document.createElement('a');
-            albumLink.href = '#portfolio'; // Link to portfolio section
-            albumLink.textContent = `${album} (${albumCounts[album]})`;
-            albumLink.style.color = '#e0e0e0';
-            albumLink.style.textDecoration = 'none';
-            albumLink.style.padding = '5px 10px';
-            albumLink.style.display = 'block';
-            albumLink.style.transition = 'color 0.2s';
-            albumLink.onmouseover = function() { this.style.color = '#ffd479'; };
-            albumLink.onmouseout = function() { this.style.color = '#e0e0e0'; };
-            albumLink.onclick = function(e) {
-                e.preventDefault();
-                renderWorks(album); // Filter works by this album
-                document.getElementById('album-dropdown').style.display = 'none'; // Hide dropdown
-            };
-            listItem.appendChild(albumLink);
-            albumList.appendChild(listItem);
-        }
-         // Add '全部' option to show all works
-         const allItem = document.createElement('li');
-         const allLink = document.createElement('a');
-         allLink.href = '#portfolio';
-         allLink.textContent = '全部';
-         allLink.style.color = '#e0e0e0';
-         allLink.style.textDecoration = 'none';
-         allLink.style.padding = '5px 10px';
-         allLink.style.display = 'block';
-         allLink.style.transition = 'color 0.2s';
-         allLink.onmouseover = function() { this.style.color = '#ffd479'; };
-         allLink.onmouseout = function() { this.style.color = '#e0e0e0'; };
-         allLink.onclick = function(e) {
-             e.preventDefault();
-             renderWorks(null); // Show all works
-             document.getElementById('album-dropdown').style.display = 'none'; // Hide dropdown
-         };
-         allItem.appendChild(allLink);
-         albumList.prepend(allItem); // Add '全部' at the beginning
-    }
-
-    // Event listener for the filter button
-    document.getElementById('filter-album-btn').onclick = function() {
-        const dropdown = document.getElementById('album-dropdown');
-        if (dropdown.style.display === 'none') {
-            populateAlbumDropdown(); // Populate every time in case data changes
-            dropdown.style.display = 'block';
-        } else {
-            dropdown.style.display = 'none';
-        }
-    };
-
-    // Hide dropdown when clicking outside
-    window.onclick = function(event) {
-        if (!event.target.matches('#filter-album-btn')) {
-            const dropdown = document.getElementById('album-dropdown');
-            if (dropdown.style.display === 'block') {
-                dropdown.style.display = 'none';
-            }
-        }
-    };
-
-    // Initial render (show latest 3 works by default)
-    renderWorks();
-    </script>
+    <script src="js/works-store.js"></script>
+    <script src="js/home.js"></script>
 </body>
-</html> 
+</html>
