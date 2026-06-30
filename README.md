@@ -7,3 +7,4 @@
 重燃理想的火焰 神圣的火焰  
 即使一切已经失去意义  
 
+jiezhiworld.vercel.app
