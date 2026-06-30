@@ -19,7 +19,7 @@
 
         <section id="upload-panel" class="upload-panel" hidden>
             <h2>添加作品</h2>
-            <p class="upload-hint">静态网页无法直接写回项目文件；这里会先保存到当前浏览器本地。确认无误后，可导出 JSON，再提交到项目库。</p>
+            <p class="upload-hint">作品集主数据来自 poem.md。静态网页无法直接写回项目文件；这里会先保存到当前浏览器本地。确认无误后，可导出 JSON，或整理进 poem.md 后提交到项目库。</p>
             <form id="work-upload-form" class="work-upload-form">
                 <div class="form-row">
                     <label for="work-title-input">标题</label>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="form-row">
                     <label for="work-file-input">上传 txt / md / json</label>
-                    <input id="work-file-input" type="file" accept=".txt,.md,.json,text/plain,application/json">
+                    <input id="work-file-input" type="file" accept=".txt,.md,.json,text/plain,text/markdown,application/json">
                 </div>
                 <div class="form-row">
                     <label for="work-content-input">正文</label>
@@ -87,7 +87,6 @@
     <footer>
         <p>&copy; 2024 介之的世界 | jiezhiworld</p>
     </footer>
-    <script src="works-data.js"></script>
     <script src="js/works-store.js"></script>
     <script src="js/portfolio.js"></script>
 </body>
