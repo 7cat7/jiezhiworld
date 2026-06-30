@@ -668,21 +668,7 @@ footer {
     opacity: 0.86;
 }
 
-.work-board-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 2em;
-    max-width: 1240px;
-    margin: 2em auto 0 auto;
-    padding: 0 2em;
-}
 
-.work-board {
-    background: rgba(255,255,255,0.04);
-    border-radius: 32px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.10);
-    padding: 1.6em 1em 2em 1em;
-}
 
 .work-board-header {
     display: flex;
@@ -703,15 +689,7 @@ footer {
     font-size: 0.95em;
 }
 
-.work-board .portfolio-list {
-    max-width: 560px;
-    margin-top: 1em;
-}
 
-.work-board .portfolio-item {
-    width: calc(100% - 3em);
-    min-height: auto;
-}
 
 .portfolio-empty {
     color: #cfcfcf;
@@ -727,11 +705,6 @@ footer {
 }
 
 @media (max-width: 980px) {
-    .work-board-grid {
-        grid-template-columns: 1fr;
-        padding: 0 1em;
-    }
-
     .refactor-sort-bar {
         justify-content: center;
     }
@@ -757,5 +730,107 @@ footer {
         margin-left: 1em;
         margin-right: 1em;
         padding: 1.4em;
+    }
+}
+
+
+/* ===== 作品库二级菜单与 Markdown 数据源修正 ===== */
+.home-category-links {
+    justify-content: center;
+    gap: 1em;
+    margin-bottom: 1.5em;
+}
+
+.primary-library-menu {
+    gap: 0.8em;
+    flex-wrap: wrap;
+}
+
+.primary-library-menu .portfolio-sort-btn.active,
+.sub-sort-bar .portfolio-sort-btn.active {
+    background: linear-gradient(90deg, #bfa76a 0%, #ffd479 100%);
+    color: #fffbe6;
+}
+
+.library-entry-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(220px, 360px));
+    justify-content: center;
+    gap: 2em;
+    margin: 3em auto;
+    padding: 0 2em;
+}
+
+.library-entry-card {
+    display: block;
+    padding: 3em 2em;
+    border-radius: 32px;
+    background: rgba(255,255,255,0.05);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+    text-align: center;
+    text-decoration: none;
+    color: #f3f3f3;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.library-entry-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 32px rgba(255,212,121,0.13);
+}
+
+.library-entry-card h2 {
+    color: #ffd479;
+    margin: 0 0 0.8em 0;
+    letter-spacing: 2px;
+}
+
+.library-entry-card p {
+    color: #cfcfcf;
+    margin: 0;
+}
+
+.work-board-view {
+    max-width: 820px;
+    margin: 2em auto 0 auto;
+    padding: 2em;
+    border-radius: 32px;
+    background: rgba(255,255,255,0.04);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+}
+
+.work-board-view .portfolio-list {
+    max-width: 700px;
+}
+
+.work-board-view .portfolio-item {
+    width: calc(100% - 3em);
+    min-height: auto;
+}
+
+.sub-sort-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    margin: 1.2em 0 1.5em 0;
+    flex-wrap: wrap;
+}
+
+.portfolio-empty {
+    color: #cfcfcf;
+    text-align: center;
+    padding: 2em 1em;
+}
+
+@media (max-width: 760px) {
+    .library-entry-grid {
+        grid-template-columns: 1fr;
+        padding: 0 1em;
+    }
+
+    .work-board-view {
+        margin-left: 1em;
+        margin-right: 1em;
+        padding: 1.2em;
     }
 }
